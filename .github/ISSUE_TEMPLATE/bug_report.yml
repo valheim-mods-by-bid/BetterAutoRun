@@ -1,0 +1,42 @@
+name: Bug report
+description: Report reproducible incorrect behavior in BetterAutoRun
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: BetterAutoRun, Valheim, and BepInEx versions
+      placeholder: BetterAutoRun 2.0.0, Valheim ..., BepInEx 5.4.22...
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the expected and actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: |
+        1. Enable autorun...
+        2. Approach...
+        3. Observe...
+    validations:
+      required: true
+  - type: textarea
+    id: config
+    attributes:
+      label: Relevant configuration
+      description: Remove private server details before posting.
+      render: ini
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Remove tokens, private server addresses, and unrelated personal data.
+      render: shell
