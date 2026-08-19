@@ -81,7 +81,7 @@ namespace BetterAutoRun
             RidingDistanceFactorConfig = Config.Bind("Client config", "RidingDistanceFactor", 2f,
                 new ConfigDescription("Multiply the number of path samples checked while riding", new AcceptableValueRange<float>(0.001f, 5f)));
             NearCollisionDetectionEnabledConfig = Config.Bind("Client config", "NearCollissionDetectionEnabledDeprecated", false,
-                new ConfigDescription("Near collision detection enabled (replaced by evade jump)"));
+                new ConfigDescription("Validate an alternate angle path over the full scan distance before applying near-collision correction"));
             EvadeJumpEnabledConfig = Config.Bind("Client config", "EvadeJumpEnabled", true,
                 new ConfigDescription("Jump if stuck somewhere - if disabled, enable NearCollissionDetectionEnabledDeprecated instead."));
             EvadeJumpGracePeriodMillisConfig = Config.Bind("Client config", "EvadeJumpGracePeriodMillis", 500,
