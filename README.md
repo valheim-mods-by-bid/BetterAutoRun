@@ -69,7 +69,7 @@ All settings are documented in the generated BepInEx config file. On servers run
 
 Values received from a server do not overwrite the client's persisted configuration file. If the server does not run BetterAutoRun, all settings remain local.
 
-When `VisualDebug` is enabled, the selected path is highlighted in yellow. Extended near-collision checks are shown in cyan when accepted and red when rejected.
+When `VisualDebug` is enabled, the selected path is highlighted in yellow. Near-collision candidate paths are shown in cyan when accepted and red when rejected.
 
 ## Building
 

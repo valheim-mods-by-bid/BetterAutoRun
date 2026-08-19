@@ -21,7 +21,6 @@ namespace BetterAutoRun
         public static ConfigEntry<float> CollisionHeightIncreaseConfig;
         public static ConfigEntry<float> CollisionRayLengthDownConfig;
         public static ConfigEntry<float> NearCollisionDetectionAngleConfig;
-        public static ConfigEntry<float> NearCollisionCorrectionAngleConfig;
         public static ConfigEntry<float> NearCollisionDetectionLengthScaleConfig;
         public static ConfigEntry<float> RidingDistanceFactorConfig;
         public static ConfigEntry<bool> NearCollisionDetectionEnabledConfig;
@@ -74,14 +73,12 @@ namespace BetterAutoRun
                 new ConfigDescription("Length of the downward collision detection raycast", new AcceptableValueRange<float>(0.5f, 20f)));
             NearCollisionDetectionAngleConfig = Config.Bind("Client config", "NearCollissionDetectionAngle", 30f,
                 new ConfigDescription("Angle for near collision detection", new AcceptableValueRange<float>(0f, 180f)));
-            NearCollisionCorrectionAngleConfig = Config.Bind("Client config", "NearCollissionCorrectionAngle", 30f,
-                new ConfigDescription("If a near collision is detected, correct the path by this angle", new AcceptableValueRange<float>(0f, 180f)));
             NearCollisionDetectionLengthScaleConfig = Config.Bind("Client config", "NearCollissionDetectionLengthScale", 1f,
                 new ConfigDescription("Scale factor for the near collision detection ray", new AcceptableValueRange<float>(0.25f, 5f)));
             RidingDistanceFactorConfig = Config.Bind("Client config", "RidingDistanceFactor", 2f,
                 new ConfigDescription("Multiply the number of path samples checked while riding", new AcceptableValueRange<float>(0.001f, 5f)));
             NearCollisionDetectionEnabledConfig = Config.Bind("Client config", "NearCollissionDetectionEnabledDeprecated", false,
-                new ConfigDescription("Validate an alternate angle path over the full scan distance before applying near-collision correction"));
+                new ConfigDescription("Use the regular path candidate one angle further on the free side when a near collision is detected"));
             EvadeJumpEnabledConfig = Config.Bind("Client config", "EvadeJumpEnabled", true,
                 new ConfigDescription("Jump if stuck somewhere - if disabled, enable NearCollissionDetectionEnabledDeprecated instead."));
             EvadeJumpGracePeriodMillisConfig = Config.Bind("Client config", "EvadeJumpGracePeriodMillis", 500,
@@ -123,7 +120,6 @@ namespace BetterAutoRun
 			configSync.Register(CollisionHeightIncreaseConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(CollisionRayLengthDownConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(NearCollisionDetectionAngleConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(NearCollisionCorrectionAngleConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(NearCollisionDetectionLengthScaleConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(RidingDistanceFactorConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(NearCollisionDetectionEnabledConfig, ConfigPolicy.ServerRecommended);

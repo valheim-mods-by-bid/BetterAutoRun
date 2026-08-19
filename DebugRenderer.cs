@@ -48,13 +48,15 @@ namespace BetterAutoRun
 			float raycastHeight,
 			bool hasSelectedAngle,
 			float selectedAngle,
-			SortedList<float, bool> extendedChecks)
+			SortedList<float, bool> nearCollisionCandidates)
 		{
 			foreach (KeyValuePair<float, SortedList<int, PathSampleDebugInfo>> scan in scans)
 			{
 				bool isSelected = hasSelectedAngle && Mathf.Abs(scan.Key - selectedAngle) < 0.001f;
-				bool extendedCheckAccepted;
-				bool hasExtendedCheck = extendedChecks.TryGetValue(scan.Key, out extendedCheckAccepted);
+				bool nearCollisionCandidateAccepted;
+				bool hasNearCollisionCandidate = nearCollisionCandidates.TryGetValue(
+					scan.Key,
+					out nearCollisionCandidateAccepted);
 				Vector3 segmentStart = startPoint;
 				segmentStart.y += raycastHeight;
 
@@ -89,9 +91,9 @@ namespace BetterAutoRun
 							width = 0.04f;
 						}
 					}
-					if (hasExtendedCheck)
+					if (hasNearCollisionCandidate)
 					{
-						color = extendedCheckAccepted
+						color = nearCollisionCandidateAccepted
 							? new Color(0.1f, 1f, 0.8f)
 							: new Color(1f, 0.1f, 0.05f);
 						width = 0.045f;

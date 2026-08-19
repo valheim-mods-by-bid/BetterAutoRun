@@ -48,6 +48,8 @@ namespace BetterAutoRun
 			float bestAngle = 0f;
 			PathScanResult bestResult = null;
 			int requiredTraversablePoints = BetterAutoRun.PathPointsConfig.Value;
+			SortedList<float, PathScanResult> regularResults =
+				new SortedList<float, PathScanResult>();
 
 			diagnostics.BeginScan(startPoint);
 			if (BetterAutoRun.IsRiding(player.GetDoodadController()))
@@ -64,6 +66,7 @@ namespace BetterAutoRun
 					Vector3 direction = RotateDirection(playerForward, angle);
 					diagnostics.PrepareAngle(angle);
 					PathScanResult result = ScanDirection(player, startPoint, direction, angle);
+					regularResults.Add(angle, result);
 
 					if (result.TraversablePoints > maxTraversablePoints)
 					{
@@ -98,7 +101,8 @@ namespace BetterAutoRun
 					startPoint,
 					bestDirection,
 					bestAngle,
-					requiredTraversablePoints,
+					angleIncrement,
+					regularResults,
 					out ignoredSelectedAngle);
 				diagnostics.MarkSelectedAngle(bestAngle);
 				return playerForward;
@@ -110,7 +114,8 @@ namespace BetterAutoRun
 				startPoint,
 				bestDirection,
 				bestAngle,
-				requiredTraversablePoints,
+				angleIncrement,
+				regularResults,
 				out selectedAngle);
 			diagnostics.MarkSelectedAngle(selectedAngle);
 			return moveDirection;
@@ -359,7 +364,8 @@ namespace BetterAutoRun
 			Vector3 startPoint,
 			Vector3 direction,
 			float angle,
-			int requiredTraversablePoints,
+			float angleIncrement,
+			SortedList<float, PathScanResult> regularResults,
 			out float selectedAngle)
 		{
 			selectedAngle = angle;
@@ -372,57 +378,100 @@ namespace BetterAutoRun
 			float rightAngle = BetterAutoRun.NearCollisionDetectionAngleConfig.Value;
 			Vector3 leftDirection = RotateDirection(direction, leftAngle);
 			Vector3 rightDirection = RotateDirection(direction, rightAngle);
-			diagnostics.PrepareAngle(leftAngle);
-			diagnostics.PrepareAngle(rightAngle);
-			PathScanResult leftResult = ScanDirection(player, startPoint, leftDirection, leftAngle, 1, true);
-			PathScanResult rightResult = ScanDirection(player, startPoint, rightDirection, rightAngle, 1, true);
-			int minimumTraversablePoints = Math.Max(1, requiredTraversablePoints);
+			float leftScanAngle = angle + leftAngle;
+			float rightScanAngle = angle + rightAngle;
+			diagnostics.PrepareAngle(leftScanAngle);
+			diagnostics.PrepareAngle(rightScanAngle);
+			PathScanResult leftResult = ScanDirection(player, startPoint, leftDirection, leftScanAngle, 1, true);
+			PathScanResult rightResult = ScanDirection(player, startPoint, rightDirection, rightScanAngle, 1, true);
 
 			if (leftResult.TraversablePoints == 0 && rightResult.TraversablePoints > 0)
 			{
-				float correctionAngle = BetterAutoRun.NearCollisionCorrectionAngleConfig.Value;
-				Vector3 correctionDirection = RotateDirection(direction, correctionAngle);
-				PathScanResult extendedRightResult = ScanDirection(
+				return SelectAdjacentRegularPath(
 					player,
 					startPoint,
-					correctionDirection,
-					angle + correctionAngle,
-					minimumTraversablePoints,
-					true);
-				if (extendedRightResult.TraversablePoints >= minimumTraversablePoints)
-				{
-					selectedAngle = angle + correctionAngle;
-					diagnostics.MarkExtendedCheck(selectedAngle, true);
-					return correctionDirection;
-				}
-				diagnostics.MarkExtendedCheck(angle + correctionAngle, false);
-				return direction;
+					direction,
+					angle,
+					angleIncrement,
+					1f,
+					regularResults,
+					out selectedAngle);
 			}
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints > 0)
 			{
-				float correctionAngle = -BetterAutoRun.NearCollisionCorrectionAngleConfig.Value;
-				Vector3 correctionDirection = RotateDirection(direction, correctionAngle);
-				PathScanResult extendedLeftResult = ScanDirection(
+				return SelectAdjacentRegularPath(
 					player,
 					startPoint,
-					correctionDirection,
-					angle + correctionAngle,
-					minimumTraversablePoints,
-					true);
-				if (extendedLeftResult.TraversablePoints >= minimumTraversablePoints)
-				{
-					selectedAngle = angle + correctionAngle;
-					diagnostics.MarkExtendedCheck(selectedAngle, true);
-					return correctionDirection;
-				}
-				diagnostics.MarkExtendedCheck(angle + correctionAngle, false);
-				return direction;
+					direction,
+					angle,
+					angleIncrement,
+					-1f,
+					regularResults,
+					out selectedAngle);
 			}
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints == 0)
 			{
 				return RotateDirection(direction, angle - 180f);
 			}
 			return direction;
+		}
+
+		private Vector3 SelectAdjacentRegularPath(
+			Player player,
+			Vector3 startPoint,
+			Vector3 direction,
+			float angle,
+			float angleIncrement,
+			float side,
+			SortedList<float, PathScanResult> regularResults,
+			out float selectedAngle)
+		{
+			selectedAngle = angle;
+			float candidateAngle = angle + angleIncrement * side;
+			if (candidateAngle < -BetterAutoRun.MaxAngleConfig.Value ||
+				candidateAngle > BetterAutoRun.MaxAngleConfig.Value)
+			{
+				diagnostics.MarkNearCollisionCandidate(candidateAngle, false);
+				return direction;
+			}
+
+			PathScanResult candidateResult = FindRegularResult(regularResults, candidateAngle);
+			if (candidateResult == null)
+			{
+				Vector3 candidateDirection = RotateDirection(direction, angleIncrement * side);
+				diagnostics.PrepareAngle(candidateAngle);
+				candidateResult = ScanDirection(
+					player,
+					startPoint,
+					candidateDirection,
+					candidateAngle,
+					1,
+					false);
+			}
+
+			bool candidateAccepted = candidateResult.TraversablePoints > 0;
+			diagnostics.MarkNearCollisionCandidate(candidateAngle, candidateAccepted);
+			if (!candidateAccepted)
+			{
+				return direction;
+			}
+
+			selectedAngle = candidateAngle;
+			return RotateDirection(direction, angleIncrement * side);
+		}
+
+		private static PathScanResult FindRegularResult(
+			SortedList<float, PathScanResult> regularResults,
+			float angle)
+		{
+			foreach (KeyValuePair<float, PathScanResult> result in regularResults)
+			{
+				if (Mathf.Abs(result.Key - angle) < 0.001f)
+				{
+					return result.Value;
+				}
+			}
+			return null;
 		}
 
 		private Color GetHitColor(Vector3 point, out Heightmap heightmap)

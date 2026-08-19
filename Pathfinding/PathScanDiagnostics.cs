@@ -8,7 +8,7 @@ namespace BetterAutoRun
 		private readonly DebugRenderer renderer;
 		private readonly SortedList<float, SortedList<int, PathSampleDebugInfo>> scans =
 			new SortedList<float, SortedList<int, PathSampleDebugInfo>>();
-		private readonly SortedList<float, bool> extendedChecks = new SortedList<float, bool>();
+		private readonly SortedList<float, bool> nearCollisionCandidates = new SortedList<float, bool>();
 		private readonly List<DebugLine> lines = new List<DebugLine>();
 		private Vector3 startPoint;
 		private bool hasSelectedAngle;
@@ -28,7 +28,7 @@ namespace BetterAutoRun
 
 			startPoint = scanStartPoint;
 			scans.Clear();
-			extendedChecks.Clear();
+			nearCollisionCandidates.Clear();
 			lines.Clear();
 			hasSelectedAngle = false;
 			selectedAngle = 0f;
@@ -66,20 +66,20 @@ namespace BetterAutoRun
 			}
 		}
 
-		internal void MarkExtendedCheck(float angle, bool accepted)
+		internal void MarkNearCollisionCandidate(float angle, bool accepted)
 		{
 			if (!Enabled)
 			{
 				return;
 			}
 
-			if (extendedChecks.ContainsKey(angle))
+			if (nearCollisionCandidates.ContainsKey(angle))
 			{
-				extendedChecks[angle] = accepted;
+				nearCollisionCandidates[angle] = accepted;
 			}
 			else
 			{
-				extendedChecks.Add(angle, accepted);
+				nearCollisionCandidates.Add(angle, accepted);
 			}
 		}
 
@@ -111,7 +111,7 @@ namespace BetterAutoRun
 				BetterAutoRun.RaycastHeightConfig.Value,
 				hasSelectedAngle,
 				selectedAngle,
-				extendedChecks);
+				nearCollisionCandidates);
 		}
 
 		private static bool Enabled
