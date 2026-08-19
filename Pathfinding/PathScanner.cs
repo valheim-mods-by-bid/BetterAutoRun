@@ -167,7 +167,8 @@ namespace BetterAutoRun
 					targetHeight,
 					lastPosition,
 					out newHeightDifference,
-					sample))
+					sample,
+					isNearCollisionCheck))
 				{
 					if (!sample.SlopeError && !sample.ColorError)
 					{
@@ -199,7 +200,8 @@ namespace BetterAutoRun
 			float targetHeight,
 			Vector3 lastPosition,
 			out float heightDifference,
-			PathSampleDebugInfo sample)
+			PathSampleDebugInfo sample,
+			bool isNearCollisionCheck)
 		{
 			int layerMask = BetterAutoRun.IsRiding(player.GetDoodadController()) ? ridingLayerMask : defaultLayerMask;
 			heightDifference = 0f;
@@ -242,15 +244,19 @@ namespace BetterAutoRun
 
 			heightDifference = groundHit.point.y - (lastPosition.y - heightOffset);
 			float rayLength = obstacleDetected ? obstacleHit.distance : pathLength;
-			if (heightDifference != 0f && rayLength / Math.Abs(heightDifference) < BetterAutoRun.MaxInclineConfig.Value)
+			if (groundHit.collider.gameObject.layer != 11 || !player.IsRunning() ||
+				heightDifference < -0.5f || isNearCollisionCheck)
 			{
-				sample.Target = groundHit.point;
-				sample.TargetHeight = sample.Target.y;
-				if (heightDifference < 0f)
+				if (heightDifference != 0f && rayLength / Math.Abs(heightDifference) < BetterAutoRun.MaxInclineConfig.Value)
 				{
-					sample.SlopeError = true;
+					sample.Target = groundHit.point;
+					sample.TargetHeight = sample.Target.y;
+					if (heightDifference < 0f)
+					{
+						sample.SlopeError = true;
+					}
+					return true;
 				}
-				return true;
 			}
 
 			if (groundHit.collider.gameObject.layer == 11)
