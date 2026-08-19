@@ -242,18 +242,15 @@ namespace BetterAutoRun
 
 			heightDifference = groundHit.point.y - (lastPosition.y - heightOffset);
 			float rayLength = obstacleDetected ? obstacleHit.distance : pathLength;
-			if (groundHit.collider.gameObject.layer != 11 || !player.IsRunning() || heightDifference < -0.5f)
+			if (heightDifference != 0f && rayLength / Math.Abs(heightDifference) < BetterAutoRun.MaxInclineConfig.Value)
 			{
-				if (heightDifference != 0f && rayLength / Math.Abs(heightDifference) < BetterAutoRun.MaxInclineConfig.Value)
+				sample.Target = groundHit.point;
+				sample.TargetHeight = sample.Target.y;
+				if (heightDifference < 0f)
 				{
-					sample.Target = groundHit.point;
-					sample.TargetHeight = sample.Target.y;
-					if (heightDifference < 0f)
-					{
-						sample.SlopeError = true;
-					}
-					return true;
+					sample.SlopeError = true;
 				}
+				return true;
 			}
 
 			if (groundHit.collider.gameObject.layer == 11)
