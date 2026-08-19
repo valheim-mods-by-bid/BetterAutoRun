@@ -92,11 +92,21 @@ namespace BetterAutoRun
 			if (bestDirection == playerForward && bestResult != null &&
 				bestResult.BlockingReason == PathBlockReason.InvalidGround)
 			{
-				ApplyNearCollisionCorrection(player, startPoint, bestDirection, bestAngle);
+				ApplyNearCollisionCorrection(
+					player,
+					startPoint,
+					bestDirection,
+					bestAngle,
+					requiredTraversablePoints);
 				return playerForward;
 			}
 
-			return ApplyNearCollisionCorrection(player, startPoint, bestDirection, bestAngle);
+			return ApplyNearCollisionCorrection(
+				player,
+				startPoint,
+				bestDirection,
+				bestAngle,
+				requiredTraversablePoints);
 		}
 
 		private PathScanResult ScanDirection(
@@ -325,7 +335,9 @@ namespace BetterAutoRun
 				}
 			}
 
-			if (state.InitialMoveDirection != Vector3.zero && state.StartGroundType == GroundType.Terrain)
+			bool pathDirectionOverrideActive = Time.time <= state.PathDirectionOverrideUntil;
+			if (state.InitialMoveDirection != Vector3.zero &&
+				(state.StartGroundType == GroundType.Terrain || pathDirectionOverrideActive))
 			{
 				lookDirection = state.InitialMoveDirection;
 			}
@@ -335,7 +347,12 @@ namespace BetterAutoRun
 			return startPoint;
 		}
 
-		private Vector3 ApplyNearCollisionCorrection(Player player, Vector3 startPoint, Vector3 direction, float angle)
+		private Vector3 ApplyNearCollisionCorrection(
+			Player player,
+			Vector3 startPoint,
+			Vector3 direction,
+			float angle,
+			int requiredTraversablePoints)
 		{
 			if (!BetterAutoRun.NearCollisionDetectionEnabledConfig.Value)
 			{
@@ -350,14 +367,41 @@ namespace BetterAutoRun
 			diagnostics.PrepareAngle(rightAngle);
 			PathScanResult leftResult = ScanDirection(player, startPoint, leftDirection, leftAngle, 1, true);
 			PathScanResult rightResult = ScanDirection(player, startPoint, rightDirection, rightAngle, 1, true);
+			int minimumTraversablePoints = Math.Max(1, requiredTraversablePoints);
 
 			if (leftResult.TraversablePoints == 0 && rightResult.TraversablePoints > 0)
 			{
-				return RotateDirection(direction, angle + BetterAutoRun.NearCollisionCorrectionAngleConfig.Value);
+				float correctionAngle = BetterAutoRun.NearCollisionCorrectionAngleConfig.Value;
+				Vector3 correctionDirection = RotateDirection(direction, correctionAngle);
+				PathScanResult extendedRightResult = ScanDirection(
+					player,
+					startPoint,
+					correctionDirection,
+					angle + correctionAngle,
+					minimumTraversablePoints,
+					true);
+				if (extendedRightResult.TraversablePoints >= minimumTraversablePoints)
+				{
+					return correctionDirection;
+				}
+				return direction;
 			}
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints > 0)
 			{
-				return RotateDirection(direction, angle - BetterAutoRun.NearCollisionCorrectionAngleConfig.Value);
+				float correctionAngle = -BetterAutoRun.NearCollisionCorrectionAngleConfig.Value;
+				Vector3 correctionDirection = RotateDirection(direction, correctionAngle);
+				PathScanResult extendedLeftResult = ScanDirection(
+					player,
+					startPoint,
+					correctionDirection,
+					angle + correctionAngle,
+					minimumTraversablePoints,
+					true);
+				if (extendedLeftResult.TraversablePoints >= minimumTraversablePoints)
+				{
+					return correctionDirection;
+				}
+				return direction;
 			}
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints == 0)
 			{
