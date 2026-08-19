@@ -395,7 +395,7 @@ namespace BetterAutoRun
 					startPoint,
 					direction,
 					angle,
-					angleIncrement,
+                    BetterAutoRun.NearCollisionCorrectionAngleConfig.Value,
 					1f,
 					regularResults,
 					out selectedAngle);
@@ -407,15 +407,17 @@ namespace BetterAutoRun
 					startPoint,
 					direction,
 					angle,
-					angleIncrement,
-					-1f,
+                    BetterAutoRun.NearCollisionCorrectionAngleConfig.Value,
+					-1,
 					regularResults,
 					out selectedAngle);
 			}
+            /*
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints == 0)
 			{
 				return RotateDirection(direction, angle - 180f);
 			}
+            */
 			return direction;
 		}
 
