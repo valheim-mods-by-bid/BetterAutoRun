@@ -8,8 +8,11 @@ namespace BetterAutoRun
 		private readonly DebugRenderer renderer;
 		private readonly SortedList<float, SortedList<int, PathSampleDebugInfo>> scans =
 			new SortedList<float, SortedList<int, PathSampleDebugInfo>>();
+		private readonly SortedList<float, bool> extendedChecks = new SortedList<float, bool>();
 		private readonly List<DebugLine> lines = new List<DebugLine>();
 		private Vector3 startPoint;
+		private bool hasSelectedAngle;
+		private float selectedAngle;
 
 		internal PathScanDiagnostics(DebugRenderer renderer)
 		{
@@ -25,7 +28,10 @@ namespace BetterAutoRun
 
 			startPoint = scanStartPoint;
 			scans.Clear();
+			extendedChecks.Clear();
 			lines.Clear();
+			hasSelectedAngle = false;
+			selectedAngle = 0f;
 		}
 
 		internal void PrepareAngle(float angle)
@@ -60,6 +66,34 @@ namespace BetterAutoRun
 			}
 		}
 
+		internal void MarkExtendedCheck(float angle, bool accepted)
+		{
+			if (!Enabled)
+			{
+				return;
+			}
+
+			if (extendedChecks.ContainsKey(angle))
+			{
+				extendedChecks[angle] = accepted;
+			}
+			else
+			{
+				extendedChecks.Add(angle, accepted);
+			}
+		}
+
+		internal void MarkSelectedAngle(float angle)
+		{
+			if (!Enabled)
+			{
+				return;
+			}
+
+			hasSelectedAngle = true;
+			selectedAngle = angle;
+		}
+
 		internal void Draw()
 		{
 			if (!Enabled)
@@ -71,7 +105,13 @@ namespace BetterAutoRun
 			{
 				renderer.DrawLine(line.Start, line.End, Color.black);
 			}
-			renderer.DrawPathScans(scans, startPoint, BetterAutoRun.RaycastHeightConfig.Value);
+			renderer.DrawPathScans(
+				scans,
+				startPoint,
+				BetterAutoRun.RaycastHeightConfig.Value,
+				hasSelectedAngle,
+				selectedAngle,
+				extendedChecks);
 		}
 
 		private static bool Enabled

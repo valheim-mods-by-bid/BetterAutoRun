@@ -45,10 +45,16 @@ namespace BetterAutoRun
 		internal void DrawPathScans(
 			SortedList<float, SortedList<int, PathSampleDebugInfo>> scans,
 			Vector3 startPoint,
-			float raycastHeight)
+			float raycastHeight,
+			bool hasSelectedAngle,
+			float selectedAngle,
+			SortedList<float, bool> extendedChecks)
 		{
 			foreach (KeyValuePair<float, SortedList<int, PathSampleDebugInfo>> scan in scans)
 			{
+				bool isSelected = hasSelectedAngle && Mathf.Abs(scan.Key - selectedAngle) < 0.001f;
+				bool extendedCheckAccepted;
+				bool hasExtendedCheck = extendedChecks.TryGetValue(scan.Key, out extendedCheckAccepted);
 				Vector3 segmentStart = startPoint;
 				segmentStart.y += raycastHeight;
 
@@ -82,6 +88,18 @@ namespace BetterAutoRun
 						{
 							width = 0.04f;
 						}
+					}
+					if (hasExtendedCheck)
+					{
+						color = extendedCheckAccepted
+							? new Color(0.1f, 1f, 0.8f)
+							: new Color(1f, 0.1f, 0.05f);
+						width = 0.045f;
+					}
+					if (isSelected)
+					{
+						color = new Color(1f, 0.85f, 0.05f);
+						width = 0.065f;
 					}
 
 					DrawLine(segmentStart, target, color, width);

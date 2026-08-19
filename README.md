@@ -69,6 +69,8 @@ All settings are documented in the generated BepInEx config file. On servers run
 
 Values received from a server do not overwrite the client's persisted configuration file. If the server does not run BetterAutoRun, all settings remain local.
 
+When `VisualDebug` is enabled, the selected path is highlighted in yellow. Extended near-collision checks are shown in cyan when accepted and red when rejected.
+
 ## Building
 
 The project targets .NET Framework 4.6.2 and expects a local Valheim installation. Do not commit game assemblies: they contain proprietary game code.

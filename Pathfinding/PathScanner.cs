@@ -92,21 +92,28 @@ namespace BetterAutoRun
 			if (bestDirection == playerForward && bestResult != null &&
 				bestResult.BlockingReason == PathBlockReason.InvalidGround)
 			{
+				float ignoredSelectedAngle;
 				ApplyNearCollisionCorrection(
 					player,
 					startPoint,
 					bestDirection,
 					bestAngle,
-					requiredTraversablePoints);
+					requiredTraversablePoints,
+					out ignoredSelectedAngle);
+				diagnostics.MarkSelectedAngle(bestAngle);
 				return playerForward;
 			}
 
-			return ApplyNearCollisionCorrection(
+			float selectedAngle;
+			Vector3 moveDirection = ApplyNearCollisionCorrection(
 				player,
 				startPoint,
 				bestDirection,
 				bestAngle,
-				requiredTraversablePoints);
+				requiredTraversablePoints,
+				out selectedAngle);
+			diagnostics.MarkSelectedAngle(selectedAngle);
+			return moveDirection;
 		}
 
 		private PathScanResult ScanDirection(
@@ -352,8 +359,10 @@ namespace BetterAutoRun
 			Vector3 startPoint,
 			Vector3 direction,
 			float angle,
-			int requiredTraversablePoints)
+			int requiredTraversablePoints,
+			out float selectedAngle)
 		{
+			selectedAngle = angle;
 			if (!BetterAutoRun.NearCollisionDetectionEnabledConfig.Value)
 			{
 				return direction;
@@ -382,8 +391,11 @@ namespace BetterAutoRun
 					true);
 				if (extendedRightResult.TraversablePoints >= minimumTraversablePoints)
 				{
+					selectedAngle = angle + correctionAngle;
+					diagnostics.MarkExtendedCheck(selectedAngle, true);
 					return correctionDirection;
 				}
+				diagnostics.MarkExtendedCheck(angle + correctionAngle, false);
 				return direction;
 			}
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints > 0)
@@ -399,8 +411,11 @@ namespace BetterAutoRun
 					true);
 				if (extendedLeftResult.TraversablePoints >= minimumTraversablePoints)
 				{
+					selectedAngle = angle + correctionAngle;
+					diagnostics.MarkExtendedCheck(selectedAngle, true);
 					return correctionDirection;
 				}
+				diagnostics.MarkExtendedCheck(angle + correctionAngle, false);
 				return direction;
 			}
 			if (rightResult.TraversablePoints == 0 && leftResult.TraversablePoints == 0)
