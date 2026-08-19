@@ -30,6 +30,8 @@ namespace BetterAutoRun.Patches
 			if (BetterAutoRun.IsEnabled && moveDir.z > 0)
 			{
 				BetterAutoRun.State.InitialMoveDirection = lookDir;
+				BetterAutoRun.State.PathDirectionOverrideUntil =
+					Time.time + BetterAutoRun.PathDirectionOverrideDurationMillisConfig.Value / 1000f;
 			}
 
 		}

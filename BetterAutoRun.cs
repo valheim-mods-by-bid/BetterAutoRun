@@ -129,9 +129,11 @@ namespace BetterAutoRun
 					Time.time + EvadeJumpGracePeriodMillisConfig.Value / 1000f;
 			}
 
-			if (Input.GetMouseButtonDown(1) || Input.GetMouseButtonUp(1))
+			if (Input.GetMouseButton(1))
 			{
 				RuntimeState.InitialMoveDirection = player.GetLookDir();
+				RuntimeState.PathDirectionOverrideUntil =
+					Time.time + PathDirectionOverrideDurationMillisConfig.Value / 1000f;
 			}
 
 			updateTimer -= Time.deltaTime;

@@ -7,6 +7,7 @@ namespace BetterAutoRun
 		internal bool SprintEnabled { get; set; }
 		internal bool SprintExhausted { get; set; }
 		internal Vector3 InitialMoveDirection { get; set; } = Vector3.zero;
+		internal float PathDirectionOverrideUntil { get; set; }
 		internal float WaterHeight { get; set; }
 		internal LiquidVolume LiquidVolume { get; set; }
 		internal Vector3 LastPosition { get; set; } = Vector3.zero;
@@ -21,6 +22,7 @@ namespace BetterAutoRun
 			SprintEnabled = false;
 			SprintExhausted = false;
 			InitialMoveDirection = Vector3.zero;
+			PathDirectionOverrideUntil = 0f;
 			WaterHeight = 0f;
 			LiquidVolume = null;
 			LastPosition = Vector3.zero;

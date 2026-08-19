@@ -28,6 +28,7 @@ namespace BetterAutoRun
         public static ConfigEntry<bool> EvadeJumpEnabledConfig;
         public static ConfigEntry<int> EvadeJumpGracePeriodMillisConfig;
         public static ConfigEntry<float> EvadeJumpMovementThresholdConfig;
+        public static ConfigEntry<int> PathDirectionOverrideDurationMillisConfig;
         public static ConfigEntry<float> MountSpeedModifierFactorConfig;
         public static ConfigEntry<float> MountSpeedGroupModifierFactorConfig;
         public static ConfigEntry<float> MaxMountSpeedGroupModifierFactorConfig;
@@ -87,6 +88,8 @@ namespace BetterAutoRun
                 new ConfigDescription("Delay before evade jump detection starts after automatic movement begins", new AcceptableValueRange<int>(0, 3000)));
             EvadeJumpMovementThresholdConfig = Config.Bind("Client config", "EvadeJumpMovementThreshold", 0.05f,
                 new ConfigDescription("Minimum movement between checks to avoid an evade jump, in metres", new AcceptableValueRange<float>(0f, 0.1f)));
+            PathDirectionOverrideDurationMillisConfig = Config.Bind("Client config", "PathDirectionOverrideDurationMillis", 3000,
+                new ConfigDescription("How long the selected direction is preferred on paths after a mouse input", new AcceptableValueRange<int>(0, 30000)));
             MountSpeedModifierFactorConfig = Config.Bind("Server config", "MountSpeedBaseModifier", 1f,
                 new ConfigDescription("Server-controlled mount run speed base modifier", new AcceptableValueRange<float>(0f, 10f)));
             MountStaminaModifierFactorConfig = Config.Bind("Server config", "MountStaminaUsageBaseModifier", 1f,
@@ -127,6 +130,7 @@ namespace BetterAutoRun
 			configSync.Register(EvadeJumpEnabledConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(EvadeJumpGracePeriodMillisConfig, ConfigPolicy.ServerRecommended);
 			configSync.Register(EvadeJumpMovementThresholdConfig, ConfigPolicy.ServerRecommended);
+			configSync.Register(PathDirectionOverrideDurationMillisConfig, ConfigPolicy.ServerRecommended);
 
 			configSync.Register(MountSpeedModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
 			configSync.Register(MountStaminaModifierFactorConfig, ConfigPolicy.ServerAuthoritative);

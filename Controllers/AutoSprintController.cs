@@ -26,6 +26,8 @@ namespace BetterAutoRun
 			if (autoRun && state.InitialMoveDirection == Vector3.zero)
 			{
 				state.InitialMoveDirection = player.GetLookDir();
+				state.PathDirectionOverrideUntil =
+					Time.time + BetterAutoRun.PathDirectionOverrideDurationMillisConfig.Value / 1000f;
 			}
 			else if (!autoRun && !player.m_autoRun && !BetterAutoRun.IsRiding())
 			{

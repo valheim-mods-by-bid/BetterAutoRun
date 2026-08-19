@@ -57,6 +57,7 @@ The most commonly useful settings are:
 | `EvadeJumpEnabled` | `true` | Jumps when movement appears stuck |
 | `EvadeJumpGracePeriodMillis` | `500` | Delay before stuck-triggered jumps are allowed after autorun starts |
 | `EvadeJumpMovementThreshold` | `0.05` | Minimum movement in metres between checks before an evade jump is triggered |
+| `PathDirectionOverrideDurationMillis` | `3000` | How long a selected direction is preferred on paths after mouse input |
 | `VisualDebug` | `false` | Draws pathfinding diagnostics |
 
 All settings are documented in the generated BepInEx config file. On servers running BetterAutoRun:
