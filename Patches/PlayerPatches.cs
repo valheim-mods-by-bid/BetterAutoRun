@@ -5,14 +5,28 @@ namespace BetterAutoRun.Patches
 	[HarmonyPatch(typeof(Player), "SetControls")]
 	internal static class PlayerSetControlsPatch
 	{
-		static void Prefix(Player __instance, ref bool run, bool autoRun)
+		private static void Prefix(Player __instance, ref bool run, bool autoRun, bool jump, out bool __state)
 		{
+			__state = __instance == Player.m_localPlayer
+				&& BetterAutoRun.IsEnabled
+				&& BetterAutoRun.KeepAutoRunOnJumpConfig.Value
+				&& __instance.m_autoRun
+				&& jump;
+
 			if (!BetterAutoRun.IsEnabled)
 			{
 				return;
 			}
 
 			AutoSprintController.ApplyControls(__instance, ref run, autoRun);
+		}
+
+		private static void Postfix(Player __instance, bool __state)
+		{
+			if (__state)
+			{
+				__instance.m_autoRun = true;
+			}
 		}
 	}
 
@@ -21,7 +35,7 @@ namespace BetterAutoRun.Patches
 	{
 		private static void Prefix(Player __instance)
 		{
-			if (!BetterAutoRun.IsEnabled)
+			if (!BetterAutoRun.IsEnabled || __instance != Player.m_localPlayer)
 			{
 				return;
 			}

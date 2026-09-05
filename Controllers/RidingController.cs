@@ -8,6 +8,8 @@ namespace BetterAutoRun
 	{
 		private static readonly FieldInfo SaddleControlDirectionField =
 			AccessTools.Field(typeof(Sadle), "m_controlDir");
+		private static readonly MethodInfo SaddleGetUserMethod =
+			AccessTools.Method(typeof(Sadle), "GetUser");
 
 		private readonly AutoRunState state;
 		private readonly Collider[] fellowRiderColliders = new Collider[128];
@@ -45,12 +47,19 @@ namespace BetterAutoRun
 			for (int index = 0; index < colliderCount; index++)
 			{
 				Sadle saddle = fellowRiderColliders[index].GetComponentInChildren<Sadle>();
-				if (saddle != null && saddle.GetUser() != 0)
+				if (saddle != null && GetSaddleUser(saddle) != 0L)
 				{
 					riderCount++;
 				}
 			}
 			return ModifierMath.CountFellowRiders(riderCount);
+		}
+
+		private static long GetSaddleUser(Sadle saddle)
+		{
+			return SaddleGetUserMethod == null
+				? 0L
+				: (long)SaddleGetUserMethod.Invoke(saddle, null);
 		}
 	}
 }

@@ -50,6 +50,7 @@ The most commonly useful settings are:
 | `enabled` | `true` | Enables path-following behavior |
 | `AutoSprint` | `LeftShift` | Toggles automatic sprinting |
 | `GlobalSprintToggle` | `false` | Allows the sprint toggle outside autorun |
+| `KeepAutoRunOnJump` | `true` | Keeps autorun enabled when jumping |
 | `StaminaMinThreshold` | `30` | Stops automatic sprint below this stamina level |
 | `PavedOnly` | `false` | Restricts path detection to paved roads |
 | `MaxAngle` | `90` | Maximum path-search angle |

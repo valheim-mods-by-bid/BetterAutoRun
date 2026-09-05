@@ -45,11 +45,17 @@ namespace BetterAutoRun
 			}
 
 			AutoRunState state = BetterAutoRun.State;
-			if (state.SprintEnabled)
+			if (state.SprintEnabled && state.SprintExhausted)
+			{
+				state.SprintExhausted = false;
+				return;
+			}
+
+			state.SprintEnabled = !state.SprintEnabled;
+			if (!state.SprintEnabled)
 			{
 				state.SprintExhausted = false;
 			}
-			state.SprintEnabled = !state.SprintEnabled;
 		}
 	}
 }

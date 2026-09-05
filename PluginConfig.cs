@@ -6,6 +6,7 @@ namespace BetterAutoRun
     internal partial class BetterAutoRun
     {
         public static ConfigEntry<bool> GlobalSprintToggleConfig;
+        public static ConfigEntry<bool> KeepAutoRunOnJumpConfig;
         public static ConfigEntry<float> StaminaMinThresholdConfig;
         public static ConfigEntry<int> UpdateTimeMillisConfig;
         public static ConfigEntry<int> MaxAngleConfig;
@@ -44,6 +45,8 @@ namespace BetterAutoRun
 
             GlobalSprintToggleConfig = Config.Bind("Client config", "GlobalSprintToggle", false,
                 new ConfigDescription("Only sprint in autorun mode, or also in normal run mode (global)"));
+            KeepAutoRunOnJumpConfig = Config.Bind("Client config", "KeepAutoRunOnJump", true,
+                new ConfigDescription("Keep autorun enabled when the player presses jump"));
             StaminaMinThresholdConfig = Config.Bind("Client config", "StaminaMinThreshold", 30f,
                 new ConfigDescription("Stop sprinting if stamina is below this value", new AcceptableValueRange<float>(0f, 250f)));
             UpdateTimeMillisConfig = Config.Bind("Client config", "UpdateMillis", 100,
