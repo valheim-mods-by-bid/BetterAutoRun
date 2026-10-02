@@ -2,8 +2,6 @@
 
 BetterAutoRun is a client-side [BepInEx](https://github.com/BepInEx/BepInEx) plugin for Valheim. It improves autorun by following roads and terrain, avoiding obstacles and hazardous ground, supporting bridges, and steering mounts.
 
-![BetterAutoRun following a road](docs/images/image.png)
-
 ![BetterAutoRun crossing a player-built bridge](docs/images/SmallBridge.png)
 
 ## Features
@@ -20,8 +18,6 @@ BetterAutoRun is a client-side [BepInEx](https://github.com/BepInEx/BepInEx) plu
 
 - Valheim
 - BepInExPack for Valheim 5.4.2202 or newer compatible release
-
-Jotunn is not required.
 
 ## Installation
 
