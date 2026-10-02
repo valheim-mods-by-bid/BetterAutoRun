@@ -31,12 +31,7 @@ namespace BetterAutoRun
         public static ConfigEntry<float> EvadeJumpMovementThresholdConfig;
         public static ConfigEntry<int> PathDirectionOverrideDurationMillisConfig;
         public static ConfigEntry<float> MountSpeedModifierFactorConfig;
-        public static ConfigEntry<float> MountSpeedGroupModifierFactorConfig;
-        public static ConfigEntry<float> MaxMountSpeedGroupModifierFactorConfig;
         public static ConfigEntry<float> MountStaminaModifierFactorConfig;
-        public static ConfigEntry<float> MountStaminaGroupModifierFactorConfig;
-        public static ConfigEntry<float> MaxMountStaminaGroupModifierFactorConfig;
-        public static ConfigEntry<int> FellowRiderDistanceConfig;
         public static ConfigEntry<KeyboardShortcut> AutoSprintShortcut;
 
         private void CreateConfigValues()
@@ -97,16 +92,6 @@ namespace BetterAutoRun
                 new ConfigDescription("Server-controlled mount run speed base modifier", new AcceptableValueRange<float>(0f, 10f)));
             MountStaminaModifierFactorConfig = Config.Bind("Server config", "MountStaminaUsageBaseModifier", 1f,
                 new ConfigDescription("Server-controlled stamina usage modifier for mounts", new AcceptableValueRange<float>(0f, 10f)));
-            FellowRiderDistanceConfig = Config.Bind("Server config", "FellowRiderDistance", 70,
-                new ConfigDescription("Radius to search fellow riders", new AcceptableValueRange<int>(0, 300)));
-            MountSpeedGroupModifierFactorConfig = Config.Bind("Server config", "MountSpeedGroupModifier", 0.1f,
-                new ConfigDescription("Server-controlled mount speed modifier per fellow rider", new AcceptableValueRange<float>(0f, 5f)));
-            MaxMountSpeedGroupModifierFactorConfig = Config.Bind("Server config", "MaxMountSpeedGroupModifier", 1f,
-                new ConfigDescription("Maximum server-controlled mount speed group bonus", new AcceptableValueRange<float>(0f, 5f)));
-            MountStaminaGroupModifierFactorConfig = Config.Bind("Server config", "MountStaminaUsageGroupModifier", 0.1f,
-                new ConfigDescription("Server-controlled stamina usage reduction per fellow rider", new AcceptableValueRange<float>(0f, 5f)));
-            MaxMountStaminaGroupModifierFactorConfig = Config.Bind("Server config", "MaxMountStaminaUsageGroupModifier", 0.9f,
-                new ConfigDescription("Maximum server-controlled stamina usage group reduction", new AcceptableValueRange<float>(0f, 1f)));
 
 			RegisterSynchronizedConfigEntries();
         }
@@ -138,11 +123,6 @@ namespace BetterAutoRun
 
 			configSync.Register(MountSpeedModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
 			configSync.Register(MountStaminaModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
-			configSync.Register(FellowRiderDistanceConfig, ConfigPolicy.ServerAuthoritative);
-			configSync.Register(MountSpeedGroupModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
-			configSync.Register(MaxMountSpeedGroupModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
-			configSync.Register(MountStaminaGroupModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
-			configSync.Register(MaxMountStaminaGroupModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
 		}
     }
 }

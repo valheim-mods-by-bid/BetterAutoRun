@@ -15,7 +15,6 @@ namespace BetterAutoRun
 		internal float EvadeJumpAllowedAt { get; set; }
 		internal GroundType StartGroundType { get; set; } = GroundType.Unknown;
 		internal Character Mount { get; set; }
-		internal int FellowRiderCount { get; set; }
 
 		internal void Reset()
 		{
@@ -30,7 +29,6 @@ namespace BetterAutoRun
 			EvadeJumpAllowedAt = 0f;
 			StartGroundType = GroundType.Unknown;
 			Mount = null;
-			FellowRiderCount = 0;
 		}
 	}
 }

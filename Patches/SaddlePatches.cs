@@ -14,11 +14,6 @@ namespace BetterAutoRun.Patches
 			}
 
 			v = v * BetterAutoRun.MountStaminaModifierFactorConfig.Value;
-			float groupBonus = ModifierMath.CalculateGroupBonus(
-				BetterAutoRun.MountStaminaGroupModifierFactorConfig.Value,
-				BetterAutoRun.State.FellowRiderCount,
-				BetterAutoRun.MaxMountStaminaGroupModifierFactorConfig.Value);
-			v = v * (1 - groupBonus);
 		}
 	}
 

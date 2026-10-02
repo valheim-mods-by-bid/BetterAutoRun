@@ -88,7 +88,6 @@
 	<Compile Include="Controllers\AutoSprintController.cs" />
     <Compile Include="BetterAutoRun.cs" />
 	<Compile Include="DebugRenderer.cs" />
-    <Compile Include="ModifierMath.cs" />
 	<Compile Include="Pathfinding\PathScanner.cs" />
 	<Compile Include="Pathfinding\PathScanDiagnostics.cs" />
 	<Compile Include="Pathfinding\PathScanResult.cs" />

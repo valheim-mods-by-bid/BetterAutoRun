@@ -27,7 +27,7 @@ Jotunn is not required.
 
 ### Mod manager
 
-Install BetterAutoRun and its declared dependencies through Thunderstore Mod Manager or r2modman.
+Install BetterAutoRun and its declared dependencies through Gale, Thunderstore Mod Manager, or r2modman. The same Thunderstore package works with all three managers.
 
 ### Manual
 

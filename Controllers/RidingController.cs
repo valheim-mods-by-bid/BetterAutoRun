@@ -8,23 +8,16 @@ namespace BetterAutoRun
 	{
 		private static readonly FieldInfo SaddleControlDirectionField =
 			AccessTools.Field(typeof(Sadle), "m_controlDir");
-		private static readonly MethodInfo SaddleGetUserMethod =
-			AccessTools.Method(typeof(Sadle), "GetUser");
-
 		private readonly AutoRunState state;
-		private readonly Collider[] fellowRiderColliders = new Collider[128];
-		private readonly int fellowRiderLayerMask;
 
 		internal RidingController(AutoRunState state)
 		{
 			this.state = state;
-			fellowRiderLayerMask = LayerMask.GetMask("character", "character_net");
 		}
 
 		internal void ApplyMoveDirection(Player player, Vector3 moveDirection)
 		{
 			state.Mount = null;
-			state.FellowRiderCount = GetFellowRiderCount(player);
 			Sadle saddle = player.GetDoodadController() as Sadle;
 			if (saddle != null)
 			{
@@ -34,32 +27,6 @@ namespace BetterAutoRun
 			}
 
 			player.SetMoveDir(moveDirection);
-		}
-
-		private int GetFellowRiderCount(Player player)
-		{
-			int colliderCount = Physics.OverlapSphereNonAlloc(
-				player.transform.position,
-				BetterAutoRun.FellowRiderDistanceConfig.Value,
-				fellowRiderColliders,
-				fellowRiderLayerMask);
-			int riderCount = 0;
-			for (int index = 0; index < colliderCount; index++)
-			{
-				Sadle saddle = fellowRiderColliders[index].GetComponentInChildren<Sadle>();
-				if (saddle != null && GetSaddleUser(saddle) != 0L)
-				{
-					riderCount++;
-				}
-			}
-			return ModifierMath.CountFellowRiders(riderCount);
-		}
-
-		private static long GetSaddleUser(Sadle saddle)
-		{
-			return SaddleGetUserMethod == null
-				? 0L
-				: (long)SaddleGetUserMethod.Invoke(saddle, null);
 		}
 	}
 }

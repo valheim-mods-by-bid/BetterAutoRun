@@ -20,14 +20,15 @@ So you have your hands free for some rp-chat or just enjoying the beautiful envi
 - evade jump
 - correct direction pressing right mouse button
 - modify mount run speed (server config)
-- modify mount run speed per fellow rider (server config)
 - modify mount stamina usage (server config)
-- modify mount stamina usage per fellow rider (server config)
 
 If you like it, support me and share pizza https://www.buymeacoffee.com/bidfollow
 
 ## Dependencies
 - BepInExPack for Valheim
+
+## Mod managers
+This Thunderstore package is compatible with Gale, Thunderstore Mod Manager, and r2modman.
 
 ## Manual Installation
 - Extract the content of the `plugins` directory into your `BepInEx/plugins` directory.

@@ -15,11 +15,6 @@ namespace BetterAutoRun.Patches
 			if ((__instance == BetterAutoRun.State.Mount) && (__instance.HaveRider()))
 			{
 				__result = __result * BetterAutoRun.MountSpeedModifierFactorConfig.Value;
-				float groupBonus = ModifierMath.CalculateGroupBonus(
-					BetterAutoRun.MountSpeedGroupModifierFactorConfig.Value,
-					BetterAutoRun.State.FellowRiderCount,
-					BetterAutoRun.MaxMountSpeedGroupModifierFactorConfig.Value);
-				__result = __result * (1 + groupBonus);
 			}
 		}
 	}
