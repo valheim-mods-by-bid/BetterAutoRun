@@ -2,7 +2,6 @@ using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
-using ValheimConfigSync;
 
 namespace BetterAutoRun
 {
@@ -23,7 +22,6 @@ namespace BetterAutoRun
 		private static readonly AutoRunState RuntimeState = new AutoRunState();
 
 		private readonly Harmony harmony = new Harmony(PluginGUID);
-		private ConfigSyncManager configSync;
 		private DebugRenderer debugRenderer;
 		private PathScanDiagnostics diagnostics;
 		private PathScanner pathScanner;
@@ -55,7 +53,6 @@ namespace BetterAutoRun
 		private void Awake()
 		{
 			Logger.LogInfo($"{PluginName} {PluginVersion} loaded");
-			configSync = new ConfigSyncManager(PluginGUID, PluginVersion, Logger);
 			CreateConfigValues();
 			AutoSprintShortcut = Config.Bind(
 				"Client config",
@@ -73,11 +70,6 @@ namespace BetterAutoRun
 		private void OnDestroy()
 		{
 			RuntimeState.Reset();
-			if (configSync != null)
-			{
-				configSync.Dispose();
-				configSync = null;
-			}
 			if (debugRenderer != null)
 			{
 				debugRenderer.Dispose();

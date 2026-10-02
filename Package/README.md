@@ -19,8 +19,6 @@ So you have your hands free for some rp-chat or just enjoying the beautiful envi
 - stuck detection
 - evade jump
 - correct direction pressing right mouse button
-- modify mount run speed (server config)
-- modify mount stamina usage (server config)
 
 If you like it, support me and share pizza https://www.buymeacoffee.com/bidfollow
 
@@ -32,10 +30,6 @@ This Thunderstore package is compatible with Gale, Thunderstore Mod Manager, and
 
 ## Manual Installation
 - Extract the content of the `plugins` directory into your `BepInEx/plugins` directory.
-
-## Configuration note
-
-When BetterAutoRun is installed on the server, settings in `Server config` are synchronized and controlled by the server. Only Valheim server administrators can change them through BepInEx Configuration Manager. Pathfinding and gameplay settings start with the server value and can then be overridden locally for the current connection. Server values do not replace the client's saved configuration.
 
 ## License and credits
 

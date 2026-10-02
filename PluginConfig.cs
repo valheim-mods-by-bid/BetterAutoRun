@@ -1,5 +1,4 @@
 using BepInEx.Configuration;
-using ValheimConfigSync;
 
 namespace BetterAutoRun
 {
@@ -30,8 +29,6 @@ namespace BetterAutoRun
         public static ConfigEntry<int> EvadeJumpGracePeriodMillisConfig;
         public static ConfigEntry<float> EvadeJumpMovementThresholdConfig;
         public static ConfigEntry<int> PathDirectionOverrideDurationMillisConfig;
-        public static ConfigEntry<float> MountSpeedModifierFactorConfig;
-        public static ConfigEntry<float> MountStaminaModifierFactorConfig;
         public static ConfigEntry<KeyboardShortcut> AutoSprintShortcut;
 
         private void CreateConfigValues()
@@ -88,41 +85,6 @@ namespace BetterAutoRun
                 new ConfigDescription("Minimum movement between checks to avoid an evade jump, in metres", new AcceptableValueRange<float>(0f, 0.1f)));
             PathDirectionOverrideDurationMillisConfig = Config.Bind("Client config", "PathDirectionOverrideDurationMillis", 3000,
                 new ConfigDescription("How long the selected direction is preferred on paths after a mouse input", new AcceptableValueRange<int>(0, 30000)));
-            MountSpeedModifierFactorConfig = Config.Bind("Server config", "MountSpeedBaseModifier", 1f,
-                new ConfigDescription("Server-controlled mount run speed base modifier", new AcceptableValueRange<float>(0f, 10f)));
-            MountStaminaModifierFactorConfig = Config.Bind("Server config", "MountStaminaUsageBaseModifier", 1f,
-                new ConfigDescription("Server-controlled stamina usage modifier for mounts", new AcceptableValueRange<float>(0f, 10f)));
-
-			RegisterSynchronizedConfigEntries();
         }
-
-		private void RegisterSynchronizedConfigEntries()
-		{
-            /*
-			configSync.Register(StaminaMinThresholdConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(UpdateTimeMillisConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(MaxAngleConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(NumAnglesConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(PathPointsConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(PathToleranceConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(MaxInclineConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(PavedOnlyConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(HeightmapSearchRadiusConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(RaycastHeightConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(CollisionHeightIncreaseConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(CollisionRayLengthDownConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(NearCollisionDetectionAngleConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(NearCollisionDetectionLengthScaleConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(RidingDistanceFactorConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(NearCollisionDetectionEnabledConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(EvadeJumpEnabledConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(EvadeJumpGracePeriodMillisConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(EvadeJumpMovementThresholdConfig, ConfigPolicy.ServerRecommended);
-			configSync.Register(PathDirectionOverrideDurationMillisConfig, ConfigPolicy.ServerRecommended);
-            */
-
-			configSync.Register(MountSpeedModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
-			configSync.Register(MountStaminaModifierFactorConfig, ConfigPolicy.ServerAuthoritative);
-		}
     }
 }

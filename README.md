@@ -61,14 +61,7 @@ The most commonly useful settings are:
 | `PathDirectionOverrideDurationMillis` | `3000` | How long a selected direction is preferred on paths after mouse input |
 | `VisualDebug` | `false` | Draws pathfinding diagnostics |
 
-All settings are documented in the generated BepInEx config file. On servers running BetterAutoRun:
-
-- settings under `Server config` are controlled by the server and synchronized to every BetterAutoRun client;
-- only players listed as Valheim server administrators may change those settings through BepInEx Configuration Manager;
-- gameplay and pathfinding settings use the server value when joining, but remain locally overridable for the current connection; and
-- personal settings such as key bindings, visual debugging, and enabling the mod remain client-only.
-
-Values received from a server do not overwrite the client's persisted configuration file. If the server does not run BetterAutoRun, all settings remain local.
+All settings are documented in the generated BepInEx config file and are local to the client.
 
 When `VisualDebug` is enabled, the selected path is highlighted in yellow. Near-collision candidate paths are shown in cyan when accepted and red when rejected.
 
@@ -95,14 +88,11 @@ The publicized game assembly is expected at:
 Restore packages and build:
 
 ```powershell
-git submodule update --init --recursive
 nuget restore BetterAutoRun.sln
 dotnet build BetterAutoRun.sln --configuration Debug --no-restore
 ```
 
 A Release build invokes `scripts/Package.ps1` automatically and creates `artifacts/BetterAutoRun-<version>.zip`.
-
-The reusable synchronization implementation is maintained in the separate `ValheimConfigSync` repository and included under `Libraries/ValheimConfigSync` as a Git submodule and Visual Studio shared project. Its source is compiled directly into BetterAutoRun, so no additional runtime DLL is required.
 
 ## Compatibility and support
 

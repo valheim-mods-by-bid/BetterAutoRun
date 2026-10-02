@@ -4,8 +4,6 @@ VisualStudioVersion = 17.13.35931.197 d17.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterAutoRun", "BetterAutoRun.csproj", "{DEAF4438-8089-40ED-8175-398E1261D45B}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ValheimConfigSync", "Libraries\ValheimConfigSync\ValheimConfigSync.shproj", "{F71F332F-ECE2-495F-9CCB-5299365A30D3}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository Files", "Repository Files", "{7CCB241B-9903-4378-B865-E7F106973F65}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
@@ -35,9 +33,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {04FA40AF-91D5-4CE8-92ED-7530C8DF0D5E}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Libraries\ValheimConfigSync\ValheimConfigSync.projitems*{deaf4438-8089-40ed-8175-398e1261d45b}*SharedItemsImports = 4
-		Libraries\ValheimConfigSync\ValheimConfigSync.projitems*{f71f332f-ece2-495f-9ccb-5299365a30d3}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

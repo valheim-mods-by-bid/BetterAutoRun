@@ -3,20 +3,6 @@ using UnityEngine;
 
 namespace BetterAutoRun.Patches
 {
-	[HarmonyPatch(typeof(Sadle), nameof(Sadle.UseStamina))]
-	internal static class SadleUseStaminaPatch
-	{
-		static void Prefix(ref float v)
-		{
-			if (!BetterAutoRun.IsEnabled)
-			{
-				return;
-			}
-
-			v = v * BetterAutoRun.MountStaminaModifierFactorConfig.Value;
-		}
-	}
-
 	[HarmonyPatch(typeof(Sadle), nameof(Sadle.ApplyControlls))]
 	internal static class SadleApplyControlsPatch
 	{

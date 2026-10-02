@@ -83,7 +83,6 @@
   <ItemGroup>
     <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Patches\SaddlePatches.cs" />
-    <Compile Include="Patches\CharacterPatches.cs" />
 	<Compile Include="AutoRunState.cs" />
 	<Compile Include="Controllers\AutoSprintController.cs" />
     <Compile Include="BetterAutoRun.cs" />
@@ -116,6 +115,5 @@
   <Target Name="PackageRelease" AfterTargets="Build" Condition="'$(Configuration)' == 'Release' and '$(SkipPackaging)' != 'true'">
     <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\scripts\Package.ps1&quot; -ProjectDirectory &quot;$(MSBuildProjectDirectory)&quot; -BinaryPath &quot;$(TargetPath)&quot; -ArtifactsDirectory &quot;$(MSBuildProjectDirectory)\artifacts&quot;" />
   </Target>
-  <Import Project="Libraries\ValheimConfigSync\ValheimConfigSync.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
