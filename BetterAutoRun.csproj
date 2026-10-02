@@ -83,20 +83,19 @@
   <ItemGroup>
     <Compile Include="Patches\PlayerPatches.cs" />
     <Compile Include="Patches\SaddlePatches.cs" />
-	<Compile Include="AutoRunState.cs" />
-	<Compile Include="Controllers\AutoSprintController.cs" />
+    <Compile Include="AutoRunState.cs" />
+    <Compile Include="Controllers\AutoSprintController.cs" />
     <Compile Include="BetterAutoRun.cs" />
-	<Compile Include="DebugRenderer.cs" />
-	<Compile Include="Pathfinding\PathScanner.cs" />
-	<Compile Include="Pathfinding\PathScanDiagnostics.cs" />
-	<Compile Include="Pathfinding\PathScanResult.cs" />
-	<Compile Include="Controllers\RidingController.cs" />
+    <Compile Include="DebugRenderer.cs" />
+    <Compile Include="Pathfinding\PathScanner.cs" />
+    <Compile Include="Pathfinding\PathScanDiagnostics.cs" />
+    <Compile Include="Pathfinding\PathScanResult.cs" />
+    <Compile Include="Controllers\RidingController.cs" />
     <Compile Include="PluginConfig.cs" />
     <Compile Include="PluginInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="docs\images\image.png" />
     <None Include="docs\images\SmallBridge.png" />
     <None Include="packages.config" />
   </ItemGroup>

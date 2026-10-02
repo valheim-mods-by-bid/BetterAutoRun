@@ -33,4 +33,4 @@ This Thunderstore package is compatible with Gale, Thunderstore Mod Manager, and
 
 ## License and credits
 
-BetterAutoRun was created by `bidfollow` and is licensed under GPL-3.0-or-later. Redistributed or modified versions must retain the applicable copyright and license notices. Distributed modifications must remain under the GPL, make their corresponding source available, and be clearly identified as changed.
+BetterAutoRun was created by `bid` and is licensed under GPL-3.0-or-later. Redistributed or modified versions must retain the applicable copyright and license notices. Distributed modifications must remain under the GPL, make their corresponding source available, and be clearly identified as changed.
